@@ -50,6 +50,7 @@ Go to the provided URL and see the application. To kill either server, press `CT
 ## Contributing
 
 1. Create a new branch (`git checkout -b YourFeatureName`)
-2. Commit your changes (`git commit -m 'Add some feature'`)
-3. Push to the branch (`git push origin feature/YourFeatureName`)
-4. Open a pull request
+2. Add your updated files (`git add .`)
+3. Commit your changes (`git commit -m 'Add some feature'`)
+4. Push to the branch (`git push origin feature/YourFeatureName`)
+5. Open a pull request
