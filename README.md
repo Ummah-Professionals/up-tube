@@ -20,74 +20,36 @@ git clone https://github.com/ummahprofessionals/up-tube
 cd up-tube
 ```
 
-Then, install the project dependencies:
+Then, install the frontend project's dependencies:
 
 ```bash
 npm install
 ```
 
-## Development
+Now go into the backend project and install its dependencies:
 
-To start the development server, use the following command:
+```bash
+cd up-tube-server
+npm install
+```
+
+Now you can start the backend server:
+
+```bash
+npm start
+```
+
+Now in a new terminal start the frontend server. But remember to run it from the root directory:
 
 ```bash
 npm run dev
 ```
 
-You'll mostly need this command, as it starts Vite's development server. Open your browser and navigate to the URL provided in the terminal to see the application.
-
-## Building
-
-To build the project for production, use the following command:
-
-```bash
-npm run build
-```
-
-The built files will be output to the `dist` directory.
-
-## Preview
-
-To preview the production build locally, use the following command:
-
-```bash
-npm run preview
-```
-
-This will start a local server to preview the built project.
-
-## Linting
-
-To lint the code and check for any issues, use the following command:
-
-```bash
-npm run lint
-```
-
-This will run ESLint on the project files. Ensure that there are no linting errors before committing your code.
-
-## Formatting
-
-To format the codebase using Prettier, use the following command:
-
-```bash
-npm run format
-```
-
-This will automatically format the code according to the project's Prettier configuration.
+Go to the provided URL and see the application. To kill either server, press `CTRL+C` in your terminal.
 
 ## Contributing
 
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature/YourFeature`)
-3. Commit your changes (`git commit -m 'Add some feature'`)
-4. Push to the branch (`git push origin feature/YourFeature`)
-5. Open a pull request
-
-## License
-
-This project is licensed under the MIT License.
-
----
-
-If you have any questions or need further assistance, feel free to reach out to the project maintainers.
+1. Create a new branch (`git checkout -b YourFeatureName`)
+2. Commit your changes (`git commit -m 'Add some feature'`)
+3. Push to the branch (`git push origin feature/YourFeatureName`)
+4. Open a pull request
