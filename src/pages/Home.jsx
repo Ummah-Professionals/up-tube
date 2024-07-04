@@ -35,7 +35,9 @@ export const Home = () => {
 
       {renderContent()}
 
-      <Link to="/about">Go to About page</Link>
+      <Link to="/about">Go to About page<br></br><br></br></Link>
+      
+      <Link to="/careers">Go to Careers page</Link>
     </main>
   );
 };
