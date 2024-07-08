@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { Home } from "./pages/Home.jsx";
 import { About } from "./pages/About.jsx";
+import { Store } from "./pages/UpTubeStore.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient({
@@ -20,6 +21,7 @@ const queryClient = new QueryClient({
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/about", element: <About /> },
+  { path: "/store", element: <Store /> }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
