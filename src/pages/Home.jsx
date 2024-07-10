@@ -35,12 +35,10 @@ export const Home = () => {
 
       {renderContent()}
 
-      <div>
-        <Link to="/about">Go to About page</Link>
-      </div>
-      <div>
+      <p>
+        <Link to="/about">Go to About page</Link><br></br><br></br>
         <Link to="/store">Go to UpTube Store</Link>
-      </div>
+      </p>
     </main>
   );
 };
