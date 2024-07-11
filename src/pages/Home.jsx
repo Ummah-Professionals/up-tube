@@ -38,6 +38,9 @@ export const Home = () => {
       <br></br>
       <br></br>
       <Link to="/settings">Go to Settings page</Link>
+      <br></br>
+      <br></br>
+      <Link to="/contactUs">Go to Contact Us page</Link>
     </main>
   );
 };
