@@ -8,7 +8,9 @@ export const ContactUs = () => {
 
             <p>Email: uptube@gmail.com</p>
 
-            <Link to="/">Go to Home page</Link> <br></br>
+            <Link to="/">Go to Home page</Link>
+            <br></br>
+            <br></br>
             <Link to="/about">Go to About page</Link>
         </main>
     );
