@@ -16,7 +16,7 @@ export const fetchJson = (...params) =>
  * there's latency.
  */
 export const slowFetchJson = async (...params) => {
-  await wait(700);
+  await wait(70);
 
   return fetchJson(...params).then((json) => {
     return json;
