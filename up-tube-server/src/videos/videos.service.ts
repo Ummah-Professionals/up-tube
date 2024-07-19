@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateVideoDto } from '../../dto/create-video.dto';
+import { CreateVideoDto } from './dto/create-video.dto';
 
 @Injectable()
 export class VideosService {
-    private videos: CreateVideoDto[] = [];
+    private readonly videos: CreateVideoDto[] = [];
 
     findAll() {
         return this.videos;
@@ -15,7 +15,7 @@ export class VideosService {
 
     create(video: CreateVideoDto) {
         if (!this.videos.length) {
-            video.id = 1; // Start ID from 1 if no videos are present
+            video.id = 1; // start ID from 1 if no videos are present
         } else {
             const videosByHighestId = [...this.videos].sort((a, b) => b.id - a.id);
             video.id = videosByHighestId[0].id + 1;

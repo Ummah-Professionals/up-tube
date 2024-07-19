@@ -7,6 +7,7 @@ import { About } from "./pages/About.jsx";
 import { Settings } from "./pages/Settings.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ContactUs } from "./pages/ContactUs.jsx";
+import { AddContent } from "./pages/AddContent.jsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
   { path: "/about", element: <About /> },
   { path: "/settings", element: <Settings /> },
   { path: "/contactUs", element: <ContactUs /> },
+  { path: "/addContent", element: <AddContent /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

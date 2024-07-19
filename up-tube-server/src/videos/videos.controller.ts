@@ -1,15 +1,15 @@
-import { Body, Controller, Get, Param, Post, Query} from '@nestjs/common';
-import { CreateVideoDto } from '../../dto/create-video.dto';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { CreateVideoDto } from './dto/create-video.dto';
 import { VideosService } from './videos.service';
 
 
-@Controller('videos')
+@Controller('/videos')
 export class VideosController {
 
     constructor(private readonly videosService: VideosService) {}
 
     @Get()
-    findAll(@Query() video: CreateVideoDto) {
+    findAll() {
         return this.videosService.findAll()
     }
 
