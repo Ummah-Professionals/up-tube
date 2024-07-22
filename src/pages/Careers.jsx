@@ -3,30 +3,40 @@ import { useQuery } from "@tanstack/react-query";
 import { slowFetchJson } from "../utilities";
 
 export const Careers = () => {
-  const { isPending, error, data } = useQuery({
+  const { isPending: isPendingApi1, error: errorApi1, data: dataApi1 } = useQuery({
     queryKey: ["apiData"],
     queryFn: () => slowFetchJson("/api").then((json) => json.message),
   });
 
+  const { isPending: isPendingApi2, error: errorApi2, data: dataApi2 } = useQuery({
+    queryKey: ["api2Data"],
+    queryFn: () => slowFetchJson("/api2.0").then((json) => json.message),
+  }); 
 
   const renderContent = () => {
-    if (isPending) {
+    if (isPendingApi1 || isPendingApi2) {
       return <p>Loading, please wait...</p>;
     }
 
-    if (error) {
+    if (errorApi1 || errorApi2) {
       return (
         <p>
-          Got an error: <b>{error.message}</b>
+          Got an error: <b>{errorApi1 ? errorApi1.message : errorApi2.message}</b>
         </p>
       );
     }
 
     return (
-      <p>
-        Our company motto is:
-        <span className="api-text"> {data}</span>
-      </p>
+      <div>
+        <p>
+          Our company motto is:
+          <span className="api-text"> {dataApi1}</span>
+        </p>
+        <p>
+          In the company,
+          <span className="api-text"> {dataApi2}</span>
+        </p>
+      </div>
     );
   };
 
