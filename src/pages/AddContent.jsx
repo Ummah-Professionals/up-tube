@@ -2,7 +2,9 @@ import { Link } from "react-router-dom";
 
 export const AddContent = () => {
 
-    const submitContent = async () => {
+    const submitContent = async (event) => {
+
+        event.preventDefault();
 
         const title = document.getElementById('videoTitle').value;
         const description = document.getElementById('videoDescription').value;
