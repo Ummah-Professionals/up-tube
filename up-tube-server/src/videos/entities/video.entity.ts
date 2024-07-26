@@ -19,7 +19,7 @@ export class Video {
     @Column({ type: 'int' })
     duration_seconds: number;
 
-    @Column({ type: 'timestamp' })
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     time_uploaded: Date;
 
     @Column({ type: 'varchar' })
