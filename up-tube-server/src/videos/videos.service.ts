@@ -1,7 +1,9 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { DataSource, Repository } from "typeorm";
-import { Video } from "./video.entity";
+import { Repository } from "typeorm";
+import { Video } from "./entity/video.entity";
+import { CreateVideoDto } from "./dto/create-video.dto";
+import { UpdateVideoDto } from "./dto/update-video.dto";
 
 @Injectable()
 export class VideosService {
@@ -45,7 +47,7 @@ export class VideosService {
     async getWatchVideo(id: string) {
         try {
             const video = await this.videoRepository.findOne({
-                where: { id: id },
+                where: { id },
                 relations: ['user'],
             })
         
@@ -85,5 +87,40 @@ export class VideosService {
                 description: 'this is mock data'
             })
         }
+    }
+
+    async create(createVideoDto:CreateVideoDto) {
+        const video = this.videoRepository.create(createVideoDto);
+        return await this.videoRepository.create(createVideoDto);
+    }
+
+    async findAll() {
+        return await this.videoRepository.find();
+    }
+
+    async findOne(id: string) {
+        return await this.videoRepository.findOne({ where: { id } });
+    }
+
+    async update(id: string, updateVideoDto: UpdateVideoDto) {
+        const video = await this.findOne(id);
+
+        if(!video) {
+            throw new NotFoundException();
+        }
+
+        Object.assign(video, updateVideoDto);
+
+        return await this.videoRepository.save(video);
+    }
+
+    async remove(id: string) {
+        const video = await this.findOne(id);
+
+        if (!video) {
+            throw new NotFoundException();
+        }
+
+        return await this.videoRepository.remove(video);
     }
 }

@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './videos/user.entity';
-import { Video } from './videos/video.entity';
+import { User } from './users/user.entity';
+import { Video } from './videos/entity/video.entity';
 import { VideosModule } from './videos/videos.module';
 
 @Module({
