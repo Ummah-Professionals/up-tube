@@ -11,18 +11,89 @@ export class VideosService {
   constructor(
     @InjectRepository(Video)
     private readonly videosRepository: Repository<Video>
-    // @InjectRepository(User)
-    // private readonly usersRepository: Repository<User>
   ) {}
-  async create(createVideoDto: CreateVideoDto) {
-    // const user = await this.usersRepository.findOne({ where: { id: createVideoDto.user_id } });
-    // if (!user) {
-    //   throw new NotFoundException('User not found');
-    // }
 
-    // const { user_id: userId, ...videoData } = createVideoDto;
-    // const video = this.videosRepository.create(videoData);
-    // video.user = user;
+  async getFeed(page: number, pageSize: number) {
+    try {
+      const [videos, total] = await this.videosRepository.findAndCount({
+        relations: ['user'],
+        take: pageSize,
+        skip: (page - 1) * pageSize,
+        order: { time_uploaded: 'DESC' }
+      });
+
+      const totalPages = Math.ceil(total / pageSize);
+
+      return {
+        videos: videos.map(video => ({
+          id: video.id,
+          title: video.title,
+          user_id: video.user.id,
+          user_username: video.user.username,
+          user_profile_pic_path: video.user.profile_pic_path,
+          duration_seconds: video.duration_seconds,
+          time_uploaded: video.time_uploaded,
+          thumbnail: video.thumbnail,
+          views: video.num_views,
+          description: video.description
+        })),
+        total_pages: totalPages,
+        current_page: page
+      }
+    } catch (error) {
+        return {
+          "success": false,
+          "status_message": "NO_VIDEOS_EXIST"
+        }
+    }
+  }
+
+  async getWatchVideo(id: string) {
+    try {
+        const video = await this.videosRepository.findOne({
+            where: { id },
+            relations: ['user'],
+        })
+    
+        return {
+            id: video.id,
+            title: video.title,
+            user_id: video.user.id,
+            user_username: video.user.username,
+            user_profile_pic_path: video.user.profile_pic_path,
+            duration_seconds: video.duration_seconds,
+            time_uploaded: video.time_uploaded,
+            thumbnail: video.thumbnail,
+            video_path: video.video_path,
+            views: video.num_views,
+            description: video.description,
+        }
+    } catch (error) {
+        return {
+            "success": false,
+            "status_message": "VIDEO_NOT_EXISTS",
+            "video_id": id,
+        }
+    } 
+}
+
+  // async populateWithVideos() {
+  //     for (let i = 0; i < 1 /*500*/; i++) {
+  //         await this.videosRepository.createQueryBuilder().insert().into(Video).values({
+  //             //id:,
+  //             title: 'mock_data',
+  //             //user_id:,
+  //             duration_seconds: 1200,
+  //             //time_uploaded:,
+  //             //thumbnail:,
+  //             //video_path:,
+  //             //num_of_views:,
+  //             description: 'this is mock data'
+  //         })
+  //     }
+  // }
+
+  async create(createVideoDto: CreateVideoDto) {
     const video = this.videosRepository.create(createVideoDto);
 
     return await this.videosRepository.save(video);
@@ -42,14 +113,6 @@ export class VideosService {
     if (!video) {
       throw new NotFoundException();
     }
-
-    // if (updateVideoDto.user_id) {
-    //   const user = await this.usersRepository.findOne({ where: { id: updateVideoDto.user_id } });
-    //   if (!user) {
-    //     throw new NotFoundException('User not found');
-    //   }
-    //   video.user = user;
-    // }
 
     Object.assign(video, updateVideoDto);
 

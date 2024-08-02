@@ -5,7 +5,7 @@ import { slowFetchJson } from "../utilities";
 export const Home = () => {
   const { isPending, error, data } = useQuery({
     queryKey: ["apiData"],
-    queryFn: () => slowFetchJson("/api").then((json) => json.message),
+    queryFn: () => slowFetchJson("/api1.0").then((json) => json.message),
   });
 
   const renderContent = () => {

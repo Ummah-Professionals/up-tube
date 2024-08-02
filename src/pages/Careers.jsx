@@ -5,7 +5,7 @@ import { slowFetchJson } from "../utilities";
 export const Careers = () => {
   const { isPending: isPendingApi1, error: errorApi1, data: dataApi1 } = useQuery({
     queryKey: ["apiData"],
-    queryFn: () => slowFetchJson("/api").then((json) => json.message),
+    queryFn: () => slowFetchJson("/api1.0").then((json) => json.message),
   });
 
   const { isPending: isPendingApi2, error: errorApi2, data: dataApi2 } = useQuery({

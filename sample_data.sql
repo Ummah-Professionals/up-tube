@@ -1,7 +1,6 @@
 -- Create sample data for Users table with alternating profile picture URLs
-INSERT INTO Users (id, username, profile_pic_path)
+INSERT INTO Users (username, profile_pic_path)
 SELECT
-    gen_random_uuid(),
     'user_' || i,
     CASE
         WHEN i % 2 = 1 THEN 'https://randomuser.me/api/portraits/men/' || i || '.jpg'
@@ -10,9 +9,8 @@ SELECT
 FROM generate_series(1, 100) AS s(i);
 
 -- Create sample data for Videos table with real URLs for thumbnails and video paths
-INSERT INTO Videos (id, title, user_id, duration_seconds, time_uploaded, thumbnail, video_path, num_views, description)
+INSERT INTO Videos (title, user_id, duration_seconds, time_uploaded, thumbnail, video_path, num_views, description)
 SELECT
-    gen_random_uuid(),
     'Video Title ' || i,
     (SELECT id FROM Users ORDER BY RANDOM() LIMIT 1),
     FLOOR(RANDOM() * 600 + 60), -- Duration between 60 and 660 seconds

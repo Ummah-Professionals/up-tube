@@ -1,7 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
+
+@Controller('api')
+export class FeedController {
+  constructor(private readonly videosService: VideosService) {}
+
+  @Get('feed')
+  async getFeed(
+    @Query('page') page: number = 1,
+    @Query('page_size') pageSize: number = 50
+  ) {
+    return this.videosService.getFeed(page, pageSize);
+  }
+
+  @Get('watchVideo/:id')
+  async getWatchVideo(@Param('id') id: string) {
+    return this.videosService.getWatchVideo(id);
+  }
+}
+
 
 @Controller('videos')
 export class VideosController {
