@@ -1,0 +1,35 @@
+.video-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  gap: 16px; /* Space between items */
+  margin-bottom: 20px; /* Space at the bottom */
+}
+
+.video-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  gap: 128px; /* Space between items */
+  margin: 0 auto; /* Centers the grid horizontally */
+  padding-top: 150px; /* Space at the top to move videos down */
+  max-width: 2000px; /* Adjust the max-width to control the grid's maximum width */
+  width: 100%; /* Ensures the grid takes full width up to max-width */
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 150px;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.pagination span {
+  align-self: center;
+  font-size: 16px;
+}
