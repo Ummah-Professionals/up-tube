@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
@@ -9,8 +9,8 @@ export class FeedController {
 
   @Get('feed')
   async getFeed(
-    @Query('page') page: number = 1,
-    @Query('page_size') pageSize: number = 50
+    @Query('page', ParseIntPipe) page: number = 1,
+    @Query('page_size', ParseIntPipe) pageSize: number = 50
   ) {
     return this.videosService.getFeed(page, pageSize);
   }
