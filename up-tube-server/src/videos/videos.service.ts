@@ -73,20 +73,10 @@ export class VideosService {
         } 
     }
 
-    async populateWithVideos() {
-        for (let i = 0; i < 1 /*500*/; i++) {
-            await this.videoRepository.createQueryBuilder().insert().into(Video).values({
-                //id:,
-                title: 'mock_data',
-                //user_id:,
-                duration_seconds: 1200,
-                //time_uploaded:,
-                //thumbnail:,
-                //video_path:,
-                //num_of_views:,
-                description: 'this is mock data'
-            })
-        }
+    async getSearch(searchQuery: string, page: number) {
+        const videos = await this.findAll();
+
+        
     }
 
     async create(createVideoDto:CreateVideoDto) {

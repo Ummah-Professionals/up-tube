@@ -42,11 +42,6 @@ export const Home = () => {
       <br></br>
       <br></br>
       <Link to="/contactUs">Go to Contact Us page</Link>
-      <br></br>
-      <br></br>
-      <Link to="/addContent">AddContent</Link>
-      <br></br>
-      <Link to="/temp">Temp</Link>
     </main>
   );
 };

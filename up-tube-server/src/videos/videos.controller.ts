@@ -3,38 +3,29 @@ import { VideosService } from "./videos.service";
 import { CreateVideoDto } from "./dto/create-video.dto";
 import { UpdateVideoDto } from "./dto/update-video.dto";
 
-@Controller('/feed')
-export class FeedController {
+@Controller('api')
+export class ApiController {
     constructor(private readonly videosService: VideosService) {}
 
-    @Get()
+    @Get('feed')
     async getFeed(
         @Query('page') page: number = 1,
         @Query('page_size') pageSize: number = 50,
     ) {
         return this.videosService.getFeed(page, pageSize);
     }
-}
 
-@Controller('/watchVideo')
-export class WatchVideoController {
-    constructor(private readonly videosService: VideosService) {}
-
-    @Get(':id')
+    @Get('watchVideo/:id')
     async getWatchVideo(@Param('id') id: string) {
         return this.videosService.getWatchVideo(id);
     }
-}
 
-@Controller('/populateWithVideos')
-export class populateWithVideos {
-    constructor(private readonly videosService: VideosService) {}
-
-    @Post()
-    async populateWithVideos() {
-        this.videosService.populateWithVideos();
-        
-        return console.log("succeeded in populating with videos");
+    @Get('search')
+    async getSearch(
+         @Query('searchQuery') searchQuery: string = "",
+         @Query('page') page: number = 25,
+    ) {
+        return this.videosService.getSearch(searchQuery, page);
     }
 }
 
