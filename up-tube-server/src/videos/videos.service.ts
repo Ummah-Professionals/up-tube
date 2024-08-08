@@ -39,12 +39,12 @@ export class VideosService {
         })),
         total_pages: totalPages,
         current_page: page
-      }
+      };
     } catch (error) {
         return {
           "success": false,
           "status_message": "NO_VIDEOS_EXIST"
-        }
+        };
     }
   }
 
