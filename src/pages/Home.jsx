@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { slowFetchJson } from "../utilities";
+
 export const Home = () => {
   const { isPending, error, data } = useQuery({
     queryKey: ["apiData"],
@@ -38,6 +39,9 @@ export const Home = () => {
       <br></br>
       <br></br>
       <Link to="/settings">Go to Settings page</Link>
+      <br></br>
+      <br></br>
+      <Link to="/contactUs">Go to Contact Us page</Link>
     </main>
   );
 };

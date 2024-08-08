@@ -8,6 +8,9 @@ export const About = () => {
       <p>This is a simple page with static content.</p>
 
       <Link to="/">Go to Home page</Link>
+      <br></br>
+      <br></br>
+      <Link to="/contactUs">Go to Contact Us page</Link>
     </main>
   );
 };
