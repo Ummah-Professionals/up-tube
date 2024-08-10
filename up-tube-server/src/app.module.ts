@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AppController, EmpController } from './app.controller';
-import { AppService, AppService2 } from './app.service';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
@@ -33,7 +33,7 @@ import { Video } from './videos/entities/video.entity';
     UsersModule,
     VideosModule
   ],
-  controllers: [AppController, EmpController, VideosController, UsersController],
-  providers: [AppService, AppService2, UsersService, VideosService],
+  controllers: [AppController, VideosController, UsersController],
+  providers: [AppService, UsersService, VideosService],
 })
 export class AppModule {}

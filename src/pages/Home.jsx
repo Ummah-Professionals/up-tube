@@ -5,7 +5,7 @@ import { slowFetchJson } from "../utilities";
 export const Home = () => {
   const { isPending, error, data } = useQuery({
     queryKey: ["apiData"],
-    queryFn: () => slowFetchJson("/api1.0").then((json) => json.message),
+    queryFn: () => slowFetchJson("/api").then((json) => json.message),
   });
 
   const renderContent = () => {
@@ -35,9 +35,7 @@ export const Home = () => {
 
       {renderContent()}
 
-      <Link to="/about">Go to About page<br></br><br></br></Link>
-      
-      <Link to="/careers">Go to Careers page</Link>
+      <Link to="/about">Go to About page</Link>
     </main>
   );
 };
