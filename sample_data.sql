@@ -1,3 +1,7 @@
+-- Empty the database tables before repopulating them
+TRUNCATE TABLE Users RESTART IDENTITY CASCADE;
+TRUNCATE TABLE Videos RESTART IDENTITY CASCADE;
+
 -- Create sample data for Users table with alternating profile picture URLs
 INSERT INTO Users (username, profile_pic_path)
 SELECT
@@ -44,4 +48,3 @@ VideoData AS (
 INSERT INTO Videos (title, user_id, duration_seconds, time_uploaded, thumbnail, video_path, num_views, description)
 SELECT title, user_id, duration_seconds, time_uploaded, thumbnail, video_path, num_views, description
 FROM VideoData;
-
