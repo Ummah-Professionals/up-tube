@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import GlobalHeader from './globalheader';
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { slowFetchJson } from "../utilities";
@@ -47,7 +48,7 @@ export const Home = () => {
       </p>
     );
   };
-
+  
   return (
     <main>
 
@@ -78,6 +79,15 @@ export const Home = () => {
       </div>
 
       <Link to="/about">Go to About page</Link>
+      <GlobalHeader />
+      <h1>Home page</h1>
+      
+      {renderContent()}
+      
+      <Link to="/about">Go to About page</Link>
+      <br></br>
+      <br></br>
+      <Link to="/settings">Click to watch a sample video</Link>
     </main>
   );
 };
