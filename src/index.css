@@ -11,3 +11,11 @@ a {
 .api-text {
   color: rgb(139, 240, 188);
 }
+
+/* If using Google Fonts or similar */
+@import url('https://fonts.googleapis.com/css2?family=Kollektif:wght@400;700&display=swap');
+
+/* Apply the font globally */
+body {
+  font-family: 'Kollektif', sans-serif;
+}
