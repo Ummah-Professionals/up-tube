@@ -54,6 +54,8 @@ export const Home = () => {
 
       {renderContent()}
 
+      <GlobalHeader />
+
       <div className="video-list">
         {videoData.map((video) => (
           <VideoAsset key={video.id} video={video} />
@@ -79,14 +81,7 @@ export const Home = () => {
       </div>
 
       <Link to="/about">Go to About page</Link>
-      <GlobalHeader />
-      <h1>Home page</h1>
       
-      {renderContent()}
-      
-      <Link to="/about">Go to About page</Link>
-      <br></br>
-      <br></br>
       <Link to="/settings">Click to watch a sample video</Link>
     </main>
   );

@@ -16,15 +16,6 @@ a {
 @import url('https://fonts.googleapis.com/css2?family=Kollektif:wght@400;700&display=swap');
 
 /* Apply the font globally */
-body {
-  font-family: 'Kollektif', sans-serif;
-.global-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  
-}
 
 .global-header .logo img {
   cursor: pointer;
