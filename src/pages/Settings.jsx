@@ -1,6 +1,6 @@
 import GlobalHeader from './globalheader';
 
-const Settings = () => {
+export const Settings = () => {
   const video = {
     url: 'videoplayback.mp4',
   thumbnail: 'Screenshot (32).png',
@@ -77,7 +77,6 @@ const Settings = () => {
   );
 };
 
-export default Settings;
 
   
    
