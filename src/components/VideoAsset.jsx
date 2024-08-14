@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import { formatDistanceToNow } from 'date-fns';
 import './VideoAsset.css';
 
@@ -17,6 +17,15 @@ const VideoAsset = ({ video }) => {
       </div>
     </div>
   );
+};
+
+VideoAsset.propTypes = {
+  video: PropTypes.shape({
+    date: PropTypes.string.isRequired,
+    thumbnail: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default VideoAsset;
