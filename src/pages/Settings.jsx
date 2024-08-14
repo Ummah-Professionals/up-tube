@@ -6,7 +6,7 @@ export const Settings = () => {
     url: 'videoplayback.mp4',
   thumbnail: 'Screenshot (32).png',
   title: 'Funny fat rabbit wakes up to a new day',
-  uploader: 'Harun I . Incekara',
+  uploader: 'Harun Incekara',
   description: 'A funny fat rabbit wakes up to a new day',
   duration: '~6 Seconds',
   uploadDate: '2024-07-26',
