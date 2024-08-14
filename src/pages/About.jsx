@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import GlobalHeader from './globalheader';
 
 export const About = () => {
