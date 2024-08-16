@@ -7,12 +7,11 @@ a {
   color: rgb(139, 240, 188);
 }
 
-/* If using Google Fonts or similar */
 @import url('https://fonts.googleapis.com/css2?family=Kollektif:wght@400;700&display=swap');
 
-/* Apply the font globally */
 body {
   font-family: 'Kollektif', sans-serif;
+
 .global-header {
   display: flex;
   justify-content: space-between;
@@ -20,6 +19,7 @@ body {
   padding: 36px 44px;
   height: 62px;
   width: 1406px;
+  margin-top: -20px;
 }
 }
 

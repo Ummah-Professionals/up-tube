@@ -37,7 +37,7 @@ export const Home = () => {
 
   return (
     <main>
-      <GlobalHeader />
+      <GlobalHeader/>
       {renderContent()}
 
       <div className="video-list">
@@ -45,10 +45,7 @@ export const Home = () => {
           <VideoAsset key={video.id} video={video} />
         ))}
       </div>
-
-      <Link to="/about">Go to About page</Link>
-      <br></br>
-      <br></br>
+      
       <Link to="/settings">Click to watch a sample video</Link>
     </main>
   );
