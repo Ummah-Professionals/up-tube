@@ -1,0 +1,47 @@
+.error-container {
+    text-align: center;
+    padding: 50px;
+  }
+  
+  .error-image {
+    width: 680px;
+    height: 446px;
+    top: 149px;
+    left: 416px;
+    gap: 0px;
+    opacity: 0px;
+
+  }
+  
+  h1 {
+    color: #007CA6;
+    font-family: Kollektif;
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 76.8px;
+    text-align: center;
+
+  }
+  
+  p {
+    font-family: Kollektif;
+    font-size: 25px;
+    font-weight: 400;
+    line-height: 30px;
+    text-align: center;
+  }
+  
+  a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  a:hover {
+    background-color: #0056b3;
+  }
+  

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { slowFetchJson } from "../utilities";
@@ -7,10 +8,12 @@ import mockVideos from '../mockVideos.json';
 import './Home.css';
 
 export const Home = () => {
-  const { isPending, error, data } = useQuery({
-    queryKey: ["apiData"],
-    queryFn: () => slowFetchJson("/api").then((json) => json.message),
-  });
+  //const { isPending, error, data } = useQuery({
+    //queryKey: ["apiData"],
+    //queryFn: () => slowFetchJson("/api").then((json) => json.message),
+  //});
+  const isPending = false;
+  const error = null;
 
   const videoData = mockVideos;
 
@@ -26,11 +29,12 @@ export const Home = () => {
         </p>
       );
     }
-
+//<span className="api-text"> {data}</span>
     return (
       <p>
         The message from the API is:
-        <span className="api-text"> {data}</span>
+    
+        <span className="api-text"> Simulated API data </span>
       </p>
     );
   };
