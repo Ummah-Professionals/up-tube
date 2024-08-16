@@ -49,8 +49,6 @@ export const Home = () => {
           <VideoAsset key={video.id} video={video} />
         ))}
       </div>
-      
-      <Link to="/settings">Click to watch a sample video</Link>
     </main>
   );
 };
