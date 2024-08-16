@@ -7,7 +7,9 @@ const VideoAsset = ({ video }) => {
 
   return (
     <div className="video-asset">
+      <a href={video.url || '/settings'} >
       <img src={video.thumbnail} alt={video.title} className="video-thumbnail" />
+      </a>
       <div className="video-info">
         <div className="video-title">{video.title}</div>
         <div className="video-meta">

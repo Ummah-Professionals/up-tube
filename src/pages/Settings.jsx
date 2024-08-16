@@ -67,7 +67,9 @@ export const Settings = () => {
       <div className="recommendationsColumn">
         {recommendations.map((rec) => (
           <div key={rec.id} className="recommendationItem">
+            <a href={'/settings'} >
             <img src={rec.thumbnail} alt={rec.title} />
+            </a>
             <h3>{rec.title}</h3>
           </div>
         ))}
