@@ -1,11 +1,32 @@
-import GlobalHeader from './globalheader';
-import { Link } from "react-router-dom";
+import GlobalHeader from "./globalheader";
+import { Link, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { slowFetchJson } from "../utilities";
+import { fetchJson } from "../utilities";
+import { NotFound } from "./NotFound";
+
+const isValidIntegerInRange = (str) => {
+  const parsed = parseInt(str, 10);
+  const isValidInt =
+    !isNaN(parsed) && Number.isInteger(parsed) && parsed.toString() === str;
+
+  return isValidInt && parsed >= 1;
+};
+
+const getPageFromQueryParams = (params) => {
+  const pageParam = params.get("page");
+
+  return isValidIntegerInRange(pageParam) ? parseInt(pageParam) : 1;
+};
+
 export const Home = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageParam = getPageFromQueryParams(searchParams);
+
   const { isPending, error, data } = useQuery({
-    queryKey: ["apiData"],
-    queryFn: () => slowFetchJson("/api").then((json) => json.message),
+    queryKey: ["apiData", pageParam],
+    queryFn: () => {
+      return fetchJson(`/api/feed?page=${pageParam}&page_size=30`);
+    },
   });
 
   const renderContent = () => {
@@ -21,25 +42,58 @@ export const Home = () => {
       );
     }
 
+    const { current_page, total_pages, videos } = data;
+
+    const isFirstPage = current_page === 1;
+    const isLastPage = current_page === total_pages;
+    const outOfBounds = total_pages < current_page || current_page < 1;
+
     return (
-      <p>
-        The message from the API is:
-        <span className="api-text"> {data}</span>
-      </p>
+      <div>
+        {outOfBounds ? null : (
+          <>
+            <button
+              onClick={() => setSearchParams({ page: pageParam - 1 })}
+              disabled={isFirstPage || outOfBounds}
+            >
+              Previous
+            </button>
+            <button
+              onClick={() => setSearchParams({ page: pageParam + 1 })}
+              disabled={isLastPage || outOfBounds}
+            >
+              Next
+            </button>
+          </>
+        )}
+
+        {videos.length === 0 ? (
+          <NotFound />
+        ) : (
+          <ul>
+            {videos.map((v) => {
+              return (
+                <Link key={v.id} to={`/watch?video=${v.id}`}>
+                  <li className="video-tile">
+                    <img src={v.thumbnail} />
+                    <span>{v.duration_seconds}</span>
+                    <h2>{v.title}</h2>
+                    <h3>{v.user_username}</h3>
+                    <span>{v.time_uploaded}</span>
+                  </li>
+                </Link>
+              );
+            })}
+          </ul>
+        )}
+      </div>
     );
   };
-  
+
   return (
     <main>
       <GlobalHeader />
-      <h1>Home page</h1>
-      
       {renderContent()}
-      
-      <Link to="/about">Go to About page</Link>
-      <br></br>
-      <br></br>
-      <Link to="/settings">Click to watch a sample video</Link>
     </main>
   );
 };
