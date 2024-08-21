@@ -2,6 +2,8 @@ import GlobalHeader from './globalheader';
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { slowFetchJson } from "../utilities";
+
+
 export const Home = () => {
   const { isPending, error, data } = useQuery({
     queryKey: ["apiData"],
