@@ -1,16 +1,15 @@
+body {
+  font-family: 'Kollektif', sans-serif;
+}
 
 a {
   color: rgb(15, 135, 175);
+  text-decoration: none;
 }
 
 .api-text {
   color: rgb(139, 240, 188);
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Kollektif:wght@400;700&display=swap');
-
-body {
-  font-family: 'Kollektif', sans-serif;
 
 .global-header {
   display: flex;
@@ -20,7 +19,6 @@ body {
   height: 62px;
   width: 1406px;
   margin-top: -20px;
-}
 }
 
 .global-header .logo img {
@@ -53,9 +51,8 @@ body {
   cursor: pointer;
   font-size: 14px;
   border-radius: 25px;
-  position: relative; right: 52px; top: 3.59px;
-  height: 32.015px;
-  
+  position: relative; right: 52px; top: 3.7px;
+  height: 32.2px;
 }
 
 .centered-button img {
@@ -74,8 +71,7 @@ body {
 .container {
   display: flex;
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  margin: 20px auto;
   gap: 20px;
 }
 
@@ -85,15 +81,9 @@ body {
   flex-direction: column;
 }
 
-.recommendationsColumn {
-  flex: 1;
-  padding: 0 10px;
-}
-
 .videoWrapper {
   position: relative;
-  padding-top: 56.25%;  
-  margin-bottom: -10px;
+  padding-top: 56.25%; 
 }
 
 .videoPlayer {
@@ -102,41 +92,34 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  margin: 0 -85px;
-  border-radius: 20px;
+  border-radius: 8px;
   object-fit: cover;
 }
 
+
 .metadata {
-  padding: 10px 20px;
+  padding: 10px;
   background-color: #fff;
   border-radius: 8px;
   margin-bottom: 20px;
-  margin: 0 -85px;
 }
 
 .title {
   font-size: 1.5rem;
   font-weight: bold;
   color: #333;
-  margin-bottom: 40px;
-  margin-left: -17px;
-  line-height: 1.2;
+  margin-bottom: 10px;
 }
 
 .description {
   font-size: 0.875rem;
   color: #555;
-  margin-bottom: 40px;
-  line-height: 1.4;
-  margin-left:-10px;
-  
+  margin-bottom: 20px;
 }
 
 .details {
   font-size: 0.875rem;
   color: #606060;
-  margin-left:-10px;
 }
 
 .details > * {
@@ -157,29 +140,33 @@ body {
   color: #606060;
 }
 
+
+.recommendationsColumn {
+  flex: 1;
+  padding: 10px;
+}
+
 .recommendationItem {
   background: #fff;
   border-radius: 8px;
   padding: 10px;
   margin-bottom: 10px;
   cursor: pointer;
-  display: flex; 
-  align-items: flex-start; 
-  margin: 0 -75px;
+  display: flex;
+  align-items: center;
 }
 
 .recommendationItem img {
-  width: 150px; 
-  height: 85px; 
+  width: 150px;
+  height: 85px;
   border-radius: 8px;
-  margin-right: 10px; 
-  margin-left: 5px;
+  margin-right: 10px;
 }
 
 .recommendationItem div {
   display: flex;
   flex-direction: column;
-  justify-content: center; 
+  justify-content: center;
 }
 
 .recommendationItem h3 {
@@ -196,7 +183,7 @@ body {
 
 @media (max-width: 768px) {
   .title {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
   }
 
   .description {
@@ -204,7 +191,7 @@ body {
   }
 
   .details {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
   }
 }
 
@@ -219,7 +206,7 @@ body {
   }
 
   .recommendationsColumn {
-    display: none; 
+    display: none;
   }
 
   .title {
@@ -231,6 +218,6 @@ body {
   }
 
   .details {
-    font-size: 0.6rem;
+    font-size: 0.65rem;
   }
 }

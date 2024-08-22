@@ -1,21 +1,36 @@
-import { useState } from 'react';
-import { Link } from "react-router-dom";
+import GlobalHeader from './globalheader';
+import { NotFound } from './NotFound';
+import VideoAsset from "../components/VideoAsset";
+import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { slowFetchJson } from "../utilities";
-import GlobalHeader from './globalheader';
-import VideoAsset from '../components/VideoAsset';
-import mockVideos from '../mockVideos.json';
-import './Home.css';
+import "./Home.css";
 
 export const Home = () => {
-  //const { isPending, error, data } = useQuery({
-    //queryKey: ["apiData"],
-    //queryFn: () => slowFetchJson("/api").then((json) => json.message),
-  //});
-  const isPending = false;
-  const error = null;
 
-  const videoData = mockVideos;
+  const [params] = useSearchParams();
+
+  const { data, error, isPending } = useQuery({
+    queryKey: ["apiData"],
+    queryFn: () => slowFetchJson("/api/feed?page_size=30&page=" + params.get("page")).then((json) => json),
+  });
+
+  console.log(params.get("page"));
+
+  /*const renderPagination = () => {
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(
+        <Link key={i} to={`/?page=${i}&page_size=${pageSize}`} className={i === page ? 'active' : ''}>
+          {i}
+        </Link>
+      );
+    }
+    return pages;
+  };
+  */
+
+  console.log(data?.videos);
 
   const renderContent = () => {
     if (isPending) {
@@ -29,27 +44,32 @@ export const Home = () => {
         </p>
       );
     }
-//<span className="api-text"> {data}</span>
+    if (data.videos.length === 0){
+      return (
+        <NotFound />
+      );
+    }
+
     return (
-      <p>
-        The message from the API is:
-    
-        <span className="api-text"> Simulated API data </span>
-      </p>
+      <div className="video-list">
+          {data.videos.map(video => (
+           <VideoAsset key={video.id} video={video} />
+         ))}
+      </div>
     );
   };
+  // <div className="pagination">
+        // {renderPagination()}
+      // </div>
+    
 
   return (
     <main>
-      <GlobalHeader/>
+      <GlobalHeader />
       {renderContent()}
 
-      <div className="video-list">
-        {videoData.map((video) => (
-          <VideoAsset key={video.id} video={video} />
-        ))}
-      </div>
     </main>
+    
   );
 };
 

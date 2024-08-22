@@ -1,33 +1,23 @@
-import PropTypes from 'prop-types';
-import { formatDistanceToNow } from 'date-fns';
+import { toRelativeTime, formatVideoViews } from '../utilities';
 import './VideoAsset.css';
 
 const VideoAsset = ({ video }) => {
-  const timeAgo = formatDistanceToNow(new Date(video.date), { addSuffix: true });
+    const timeAgo = toRelativeTime(video.time_uploaded);
+  
 
   return (
     <div className="video-asset">
-      <a href={video.url || '/settings'} >
-      <img src={video.thumbnail} alt={video.title} className="video-thumbnail" />
-      </a>
+      <img src={"https://flymeflag.com/cdn/shop/products/Palestine-Flags-Flag_1e2d848c-16d0-49e9-b469-7b9507ba3904.jpg?v=1628782911&width=550"} alt={video.title} className="video-thumbnail" />
       <div className="video-info">
         <div className="video-title">{video.title}</div>
         <div className="video-meta">
-          <span>{video.author}</span>
+          <span>{video.user_username}</span>
           <span>{timeAgo}</span>
+          <span>{formatVideoViews(video.views)} views </span>
         </div>
       </div>
     </div>
   );
-};
-
-VideoAsset.propTypes = {
-  video: PropTypes.shape({
-    date: PropTypes.string.isRequired,
-    thumbnail: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
 export default VideoAsset;
