@@ -1,4 +1,4 @@
-import { User } from "src/users/user.entity";
+import { User } from "src/users/entity/user.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'videos' })
@@ -29,7 +29,7 @@ export class Video {
     video_path: string;
 
     @Column({ type: 'int', default: 0 })
-    views: number;
+    num_views: number;
 
     @Column({ type: 'text' })
     description: string;
