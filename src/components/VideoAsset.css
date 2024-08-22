@@ -1,0 +1,36 @@
+.video-asset {
+    overflow: hidden;
+    /* Adjust height if necessary */
+  }
+  
+  .video-thumbnail {
+    width: 100%; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 12px; /* Optional: add rounded corners */
+  }
+  
+  
+  .video-info {
+    padding: 8px;
+  }
+  
+  .video-title {
+    font-family: 'Kollektif', sans-serif;
+    max-width: 253px;
+    
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+  
+  .video-meta {
+    font-family: 'Kollektif', sans-serif;
+    font-size: 12px;
+    color: #555;
+    margin-bottom: 4px;
+  }
+  
+  .video-meta span {
+    display: block;
+    margin-bottom: 2px;
+  }

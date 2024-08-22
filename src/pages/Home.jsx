@@ -1,21 +1,36 @@
 import GlobalHeader from './globalheader';
-import { Link } from "react-router-dom";
+import { NotFound } from './NotFound';
+import VideoAsset from "../components/VideoAsset";
+import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { slowFetchJson } from "../utilities";
-
+import "./Home.css";
 
 export const Home = () => {
-  const { isPending, error, data } = useQuery({
-    queryKey: ["apiData"],
-    queryFn: () => {
-      return slowFetchJson("/api/feed?page=1").then((json) => {
-        console.log('Fetched JSON data:', json);
-        return json;
-      });
-}
-});
 
-  console.log(data);
+  const [params] = useSearchParams();
+
+  const { data, error, isPending } = useQuery({
+    queryKey: ["apiData"],
+    queryFn: () => slowFetchJson("/api/feed?page_size=30&page=" + params.get("page")).then((json) => json),
+  });
+
+  console.log(params.get("page"));
+
+  /*const renderPagination = () => {
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(
+        <Link key={i} to={`/?page=${i}&page_size=${pageSize}`} className={i === page ? 'active' : ''}>
+          {i}
+        </Link>
+      );
+    }
+    return pages;
+  };
+  */
+
+  console.log(data?.videos);
 
   const renderContent = () => {
     if (isPending) {
@@ -29,26 +44,33 @@ export const Home = () => {
         </p>
       );
     }
+    if (data.videos.length === 0){
+      return (
+        <NotFound />
+      );
+    }
 
     return (
-      <p>
-        The message from the API is:
-        <span className="api-text"> {data}</span>
-      </p>
+      <div className="video-list">
+          {data.videos.map(video => (
+           <VideoAsset key={video.id} video={video} />
+         ))}
+      </div>
     );
   };
-  
+  // <div className="pagination">
+        // {renderPagination()}
+      // </div>
+    
+
   return (
     <main>
       <GlobalHeader />
-      <h1>Home page</h1>
-      
       {renderContent()}
-      
-      <Link to="/about">Go to About page</Link>
-      <br></br>
-      <br></br>
-      <Link to="/settings">Click to watch a sample video</Link>
+
     </main>
+    
   );
 };
+
+export default Home;
