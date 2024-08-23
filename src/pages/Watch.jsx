@@ -1,47 +1,42 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import GlobalHeader from './globalheader';
 import Load from '../components/Load'; 
 import { NotFound } from './NotFound';
-import { slowFetchJson } from '../utilities';
+import { fetchJson } from '../utilities'; // Ensure fetchJson is used for querying
+
+const fetchVideo = async (videoId) => {
+  const response = await fetchJson(`/api/videos/${videoId}`);
+  return response;
+};
 
 const Watch = () => {
   const { videoId = "" } = useParams(); 
   const navigate = useNavigate();
-  const [video, setVideo] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const {
+    data: video,
+    error,
+    isLoading,
+    isError
+  } = useQuery({
+    queryKey: ['video', videoId],
+    queryFn: () => fetchVideo(videoId),
+    enabled: !!videoId, // Only run the query if videoId is available
+  });
+
+  React.useEffect(() => {
     if (!videoId) {
       navigate('/'); 
-      return;
     }
-
-    const fetchVideo = async () => {
-      try {
-        setLoading(true);
-        const data = await slowFetchJson(`/api/videos/${videoId}`);
-        setVideo(data);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    fetchVideo();
   }, [videoId, navigate]);
 
-  if (loading) {
-    return <Load />; 
+  if (isLoading) {
+    return <Load />;
   }
 
-  if (error) {
-    return <Error404 />;
-  }
-
-  if (!video) {
+  if (isError || !video) {
     return <NotFound />;
   }
 
@@ -82,6 +77,8 @@ const Watch = () => {
 };
 
 export default Watch;
+
+
 
 
 

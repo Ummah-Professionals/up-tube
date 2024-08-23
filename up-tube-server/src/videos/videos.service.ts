@@ -4,7 +4,7 @@ import { UpdateVideoDto } from './dto/update-video.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Video } from './entities/video.entity';
 import { Repository } from 'typeorm';
-import { User } from 'src/users/entities/user.entity';
+import { Like } from 'typeorm';
 
 @Injectable()
 export class VideosService {
@@ -77,21 +77,41 @@ export class VideosService {
     } 
 }
 
-  // async populateWithVideos() {
-  //     for (let i = 0; i < 1 /*500*/; i++) {
-  //         await this.videosRepository.createQueryBuilder().insert().into(Video).values({
-  //             //id:,
-  //             title: 'mock_data',
-  //             //user_id:,
-  //             duration_seconds: 1200,
-  //             //time_uploaded:,
-  //             //thumbnail:,
-  //             //video_path:,
-  //             //num_of_views:,
-  //             description: 'this is mock data'
-  //         })
-  //     }
-  // }
+async searchVideos(searchQuery: string, page: number, pageSize: number) {
+  try {
+    const [videos, total] = await this.videosRepository.findAndCount({
+      where: { title: Like(`%${searchQuery}%`), description: Like(`%${searchQuery}%`) },
+      relations: ['user'],
+      take: pageSize,
+      skip: (page - 1) * pageSize,
+      order: { time_uploaded: 'DESC' },
+    });
+
+    const totalPages = Math.ceil(total / pageSize);
+
+    return {
+      videos: videos.map(video => ({
+        id: video.id,
+        title: video.title,
+        user_id: video.user.id,
+        user_username: video.user.username,
+        user_profile_pic_path: video.user.profile_pic_path,
+        duration_seconds: video.duration_seconds,
+        time_uploaded: video.time_uploaded,
+        thumbnail: video.thumbnail,
+        views: video.num_views,
+        description: video.description,
+      })),
+      total_pages: totalPages,
+      current_page: page,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      status_message: "SEARCH_FAILED",
+    };
+  }
+}
 
   async create(createVideoDto: CreateVideoDto) {
     const video = this.videosRepository.create(createVideoDto);

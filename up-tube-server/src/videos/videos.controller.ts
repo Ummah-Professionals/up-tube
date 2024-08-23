@@ -4,7 +4,7 @@ import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
 
 @Controller('api')
-export class FeedController {
+export class APIController {
   constructor(private readonly videosService: VideosService) {}
 
   @Get('feed')
@@ -19,6 +19,13 @@ export class FeedController {
   async getWatchVideo(@Param('id') id: string) {
     return this.videosService.getWatchVideo(id);
   }
+
+  @Get('search')
+  async search(@Query('searchQuery') searchQuery: string, @Query('page') page: number = 1, @Query('page_size') pageSize: number = 25) {  
+    const result = await this.videosService.searchVideos(searchQuery, page, pageSize);
+    return result;
+  }
+
 }
 
 

@@ -10,10 +10,13 @@ export const Home = () => {
 
   const [params] = useSearchParams();
 
+  const page = params.get("page") || 1;
+  const page_size = params.get("page_size") || 50;
+
   const { data, error, isPending } = useQuery({
-    queryKey: ["apiData"],
-    queryFn: () => slowFetchJson("/api/feed?page_size=30&page=" + params.get("page")).then((json) => json),
-  });
+    queryKey: ["apiData", page, page_size],
+    queryFn: () => slowFetchJson(`/api/feed?page_size=${page_size}&page=${page}`).then((json) => json),
+  }); 
 
   console.log(params.get("page"));
 
