@@ -4,11 +4,13 @@ import GlobalHeader from './globalheader';
 import Load from '../components/Load'; 
 import { NotFound } from './NotFound';
 import { slowFetchJson } from '../utilities';
+import VideoAsset from '../components/VideoAsset'; 
 
 const Watch = () => {
   const { videoId = "" } = useParams();
   const navigate = useNavigate();
   const [video, setVideo] = useState(null);
+  const [feed, setFeed] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -18,16 +20,23 @@ const Watch = () => {
       return;
     }
 
-    const fetchVideo = async () => {
+    const fetchVideoAndFeed = async () => {
       try {
         setLoading(true);
-        const response = await slowFetchJson(`/api/watchVideo/${videoId}`);
+        const videoResponse = await slowFetchJson(`/api/watchVideo/${videoId}`);
         
-        if (response.success === false) {
-          throw new Error(response.status_message);
+        if (videoResponse.success === false) {
+          throw new Error(videoResponse.status_message);
+        }
+        
+        const feedResponse = await slowFetchJson(`/api/feed?page_size=10&page=1`); 
+        
+        if (feedResponse.success === false) {
+          throw new Error(feedResponse.status_message);
         }
 
-        setVideo(response);
+        setVideo(videoResponse);
+        setFeed(feedResponse.videos);
       } catch (err) {
         setError(err);
       } finally {
@@ -35,7 +44,7 @@ const Watch = () => {
       }
     };
   
-    fetchVideo();
+    fetchVideoAndFeed();
   }, [videoId, navigate]);
 
   if (loading) {
@@ -49,6 +58,40 @@ const Watch = () => {
   if (!video) {
     return <NotFound />;
   }
+
+  
+  const extractNumericValue = (title) => {
+    const match = title.match(/\d+/);
+    return match ? parseInt(match[0], 10) : null;
+  };
+
+
+  const watchedVideoNumericValue = extractNumericValue(video.title);
+
+  
+  const compareByProximity = (a, b) => {
+    const aValue = extractNumericValue(a.title);
+    const bValue = extractNumericValue(b.title);
+    
+    const aHasMatch = aValue !== null;
+    const bHasMatch = bValue !== null;
+
+    if (aHasMatch && bHasMatch) {
+      const aDifference = Math.abs(aValue - watchedVideoNumericValue);
+      const bDifference = Math.abs(bValue - watchedVideoNumericValue);
+      return aDifference - bDifference;
+    }
+
+    if (aHasMatch) return -1; 
+    if (bHasMatch) return 1; 
+
+    return 0; 
+  };
+
+ 
+  const filteredFeed = feed
+    .filter(v => v.id !== video.id)
+    .sort(compareByProximity);
 
   return (
     <div>
@@ -72,14 +115,13 @@ const Watch = () => {
           </div>
         </div>
         <div className="recommendationsColumn">
-          {video.recommendations && video.recommendations.map((rec) => (
-            <div key={rec.id} className="recommendationItem">
-              <a href={`/watch/${rec.id}`}>
-                <img src={rec.thumbnail} alt={rec.title} />
-              </a>
-              <h3>{rec.title}</h3>
-            </div>
-          ))}
+          {filteredFeed.length > 0 ? (
+            filteredFeed.map((rec) => (
+              <VideoAsset key={rec.id} video={rec} />
+            ))
+          ) : (
+            <p>No recommendations available.</p>
+          )}
         </div>
       </div>
     </div>
@@ -87,6 +129,13 @@ const Watch = () => {
 };
 
 export default Watch;
+
+
+
+
+
+
+
 
 
 

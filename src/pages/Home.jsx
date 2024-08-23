@@ -1,43 +1,58 @@
-import GlobalHeader from './globalheader';
-import { NotFound } from './NotFound';
-import VideoAsset from "../components/VideoAsset";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { slowFetchJson } from "../utilities";
+import GlobalHeader from './globalheader';
+import Load from '../components/Load';
+import NotFound from './NotFound';
+import VideoAsset from "../components/VideoAsset";
 import "./Home.css";
 
 export const Home = () => {
-
   const [params] = useSearchParams();
-
   const page = params.get("page") || 1;
   const page_size = params.get("page_size") || 52;
+  const query = params.get("query") || "";
 
   const { data, error, isPending } = useQuery({
     queryKey: ["apiData", page, page_size],
     queryFn: () => slowFetchJson(`/api/feed?page_size=${page_size}&page=${page}`).then((json) => json),
-  }); 
+  });
 
-  console.log(params.get("page"));
-
-  /*const renderPagination = () => {
-    const pages = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push(
-        <Link key={i} to={`/?page=${i}&page_size=${pageSize}`} className={i === page ? 'active' : ''}>
-          {i}
-        </Link>
-      );
-    }
-    return pages;
+  
+  const extractNumber = (str) => {
+    const match = str.match(/\d+/);
+    return match ? parseInt(match[0], 10) : null;
   };
-  */
 
-  console.log(data?.videos);
+  const calculateRelevance = (video, searchQuery, searchNum) => {
+    const title = video.title.toLowerCase();
+    const isExactMatch = title.includes(searchQuery.toLowerCase());
+    const videoNum = extractNumber(video.title);
+
+    
+    let relevance = isExactMatch ? 1000 : 0;
+    if (searchNum && videoNum !== null) {
+      relevance += 100 / (1 + Math.abs(videoNum - searchNum));
+    }
+
+    return relevance;
+  };
+
+  
+  const sortVideos = (videos, searchQuery) => {
+    const searchNum = extractNumber(searchQuery);
+
+    return videos
+      .map(video => ({
+        ...video,
+        relevance: calculateRelevance(video, searchQuery, searchNum)
+      }))
+      .sort((a, b) => b.relevance - a.relevance); 
+  };
 
   const renderContent = () => {
     if (isPending) {
-      return <p>Loading, please wait...</p>;
+      return <Load />;
     }
 
     if (error) {
@@ -47,33 +62,36 @@ export const Home = () => {
         </p>
       );
     }
-    if (data.videos.length === 0){
-      return (
-        <NotFound />
-      );
+
+    if (data.videos.length === 0) {
+      return <NotFound />;
     }
+
+    const sortedVideos = sortVideos(data.videos, query);
 
     return (
       <div className="video-list">
-          {data.videos.map(video => (
-           <VideoAsset key={video.id} video={video} />
-         ))}
+        {sortedVideos.length > 0 ? (
+          sortedVideos.map(video => (
+            <VideoAsset key={video.id} video={video} />
+          ))
+        ) : (
+          <NotFound />
+        )}
       </div>
     );
   };
-  // <div className="pagination">
-        // {renderPagination()}
-      // </div>
-    
 
   return (
     <main>
       <GlobalHeader />
       {renderContent()}
-
     </main>
-    
   );
 };
 
 export default Home;
+
+
+
+
