@@ -29,21 +29,20 @@ a {
 }
 
 .global-header .search-form {
-  flex: 1;
-  margin: 0 110px;
-  border-color:#CCC9C9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40%;
 }
 
 .global-header .search-form input[type="text"] {
-  align-items: center;
-  width: 30%;
+  flex: 1;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 25px;
   font-size: 14px;
-  margin-left:500px;
-  margin-right:5px;
   background-color: rgba(255, 255, 255, 1);
+  margin-right: -45px;
 }
 
 .global-header .search-form button {
@@ -54,8 +53,7 @@ a {
   cursor: pointer;
   font-size: 14px;
   border-radius: 25px;
-  position: relative; right: 52px; top: 3.7px;
-  height: 32.2px;
+  height: 32.5px;
 }
 
 .centered-button img {
