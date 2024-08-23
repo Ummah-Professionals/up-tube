@@ -1,42 +1,52 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import GlobalHeader from './globalheader';
 import Load from '../components/Load'; 
 import { NotFound } from './NotFound';
-import { fetchJson } from '../utilities'; // Ensure fetchJson is used for querying
-
-const fetchVideo = async (videoId) => {
-  const response = await fetchJson(`/api/videos/${videoId}`);
-  return response;
-};
+import { slowFetchJson } from '../utilities';
 
 const Watch = () => {
-  const { videoId = "" } = useParams(); 
+  const { videoId = "" } = useParams();
   const navigate = useNavigate();
+  const [video, setVideo] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const {
-    data: video,
-    error,
-    isLoading,
-    isError
-  } = useQuery({
-    queryKey: ['video', videoId],
-    queryFn: () => fetchVideo(videoId),
-    enabled: !!videoId, // Only run the query if videoId is available
-  });
-
-  React.useEffect(() => {
+  useEffect(() => {
     if (!videoId) {
       navigate('/'); 
+      return;
     }
+
+    const fetchVideo = async () => {
+      try {
+        setLoading(true);
+        const response = await slowFetchJson(`/api/watchVideo/${videoId}`);
+        
+        if (response.success === false) {
+          throw new Error(response.status_message);
+        }
+
+        setVideo(response);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchVideo();
   }, [videoId, navigate]);
 
-  if (isLoading) {
+  if (loading) {
     return <Load />;
   }
 
-  if (isError || !video) {
+  if (error) {
+    return <NotFound />;
+  }
+
+  if (!video) {
     return <NotFound />;
   }
 
@@ -47,16 +57,16 @@ const Watch = () => {
         <div className="videoColumn">
           <video
             controls
-            src={video.url}
+            src={video.video_path}
             poster={video.thumbnail}
           />
           <div className="metadata">
             <h1 className="title">{video.title}</h1>
             <p className="description">{video.description}</p>
             <div className="details">
-              <span className="detailItem"><strong>Uploaded by:</strong> {video.uploader}</span>
-              <span className="detailItem"><strong>Duration:</strong> {video.duration}</span>
-              <span className="detailItem"><strong>Uploaded on:</strong> {video.uploadDate}</span>
+              <span className="detailItem"><strong>Uploaded by:</strong> {video.user_username}</span>
+              <span className="detailItem"><strong>Duration:</strong> {video.duration_seconds} seconds</span>
+              <span className="detailItem"><strong>Uploaded on:</strong> {new Date(video.time_uploaded).toLocaleDateString()}</span>
               <span className="detailItem"><strong>Views:</strong> {video.views}</span>
             </div>
           </div>
@@ -77,6 +87,7 @@ const Watch = () => {
 };
 
 export default Watch;
+
 
 
 

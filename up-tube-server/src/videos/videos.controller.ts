@@ -10,7 +10,7 @@ export class APIController {
   @Get('feed')
   async getFeed(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-    @Query('page_size', new DefaultValuePipe(50), ParseIntPipe) pageSize: number
+    @Query('page_size', new DefaultValuePipe(52), ParseIntPipe) pageSize: number
   ) {
     return this.videosService.getFeed(page, pageSize);
   }

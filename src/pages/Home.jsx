@@ -11,7 +11,7 @@ export const Home = () => {
   const [params] = useSearchParams();
 
   const page = params.get("page") || 1;
-  const page_size = params.get("page_size") || 50;
+  const page_size = params.get("page_size") || 52;
 
   const { data, error, isPending } = useQuery({
     queryKey: ["apiData", page, page_size],
