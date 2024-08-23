@@ -18,7 +18,8 @@ a {
   align-items: center;
   padding: 36px 44px;
   height: 62px;
-  width: 1406px;
+  width: 1350px;
+  width: 100%;
   margin-top: -20px;
 }
 
@@ -34,12 +35,13 @@ a {
 }
 
 .global-header .search-form input[type="text"] {
-  width: 55%;
+  align-items: center;
+  width: 30%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 25px;
   font-size: 14px;
-  margin-left:125px;
+  margin-left:500px;
   margin-right:5px;
   background-color: rgba(255, 255, 255, 1);
 }
@@ -64,7 +66,7 @@ a {
 
 .global-header .profile-links img {
   cursor: pointer;
-  margin-left: 10px;
+  margin-right: 70px;
   max-height: 32.5px; 
   margin-top:5px;
 }
