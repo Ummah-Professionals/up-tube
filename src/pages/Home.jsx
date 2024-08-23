@@ -1,59 +1,75 @@
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { slowFetchJson } from "../utilities";
 import GlobalHeader from './globalheader';
 import Load from '../components/Load';
-import { NotFound } from './NotFound';
+import NotFound from './NotFound';
 import VideoAsset from "../components/VideoAsset";
-import { useQuery } from '@tanstack/react-query';
-import { slowFetchJson } from '../utilities';
 import "./Home.css";
 
 export const Home = () => {
   const [params] = useSearchParams();
-  const [sortedVideos, setSortedVideos] = useState([]);
-
   const page = params.get("page") || 1;
-  const pageSize = params.get("page_size") || 52;
-  const searchQuery = params.get("query") || '';
+  const page_size = params.get("page_size") || 52;
+  const query = params.get("query") || "";
 
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["apiData", page, pageSize],
-    queryFn: () => slowFetchJson(`/api/feed?page_size=${pageSize}&page=${page}`).then((json) => json),
+  const { data, error, isPending } = useQuery({
+    queryKey: ["apiData", page, page_size],
+    queryFn: () => slowFetchJson(`/api/feed?page_size=${page_size}&page=${page}`).then((json) => json),
   });
 
-  useEffect(() => {
-    if (data) {
-      let videos = data.videos;
+  
+  const extractNumber = (str) => {
+    const match = str.match(/\d+/);
+    return match ? parseInt(match[0], 10) : null;
+  };
 
-      if (searchQuery) {
-        videos = videos.map(video => ({
-          ...video,
-          score: video.title.toLowerCase().includes(searchQuery.toLowerCase()) ? 1 : 0
-        }));
+  const calculateRelevance = (video, searchQuery, searchNum) => {
+    const title = video.title.toLowerCase();
+    const isExactMatch = title.includes(searchQuery.toLowerCase());
+    const videoNum = extractNumber(video.title);
 
-       
-        videos.sort((a, b) => b.score - a.score);
-      }
-
-      setSortedVideos(videos);
+    
+    let relevance = isExactMatch ? 1000 : 0;
+    if (searchNum && videoNum !== null) {
+      relevance += 100 / (1 + Math.abs(videoNum - searchNum));
     }
-  }, [data, searchQuery]);
 
-  if (isLoading) {
-    return <Load />;
-  }
+    return relevance;
+  };
 
-  if (error) {
-    return <p>Got an error: <b>{error.message}</b></p>;
-  }
+  
+  const sortVideos = (videos, searchQuery) => {
+    const searchNum = extractNumber(searchQuery);
 
-  if (sortedVideos.length === 0) {
-    return <NotFound />;
-  }
+    return videos
+      .map(video => ({
+        ...video,
+        relevance: calculateRelevance(video, searchQuery, searchNum)
+      }))
+      .sort((a, b) => b.relevance - a.relevance); 
+  };
 
-  return (
-    <main>
-      <GlobalHeader />
+  const renderContent = () => {
+    if (isPending) {
+      return <Load />;
+    }
+
+    if (error) {
+      return (
+        <p>
+          Got an error: <b>{error.message}</b>
+        </p>
+      );
+    }
+
+    if (data.videos.length === 0) {
+      return <NotFound />;
+    }
+
+    const sortedVideos = sortVideos(data.videos, query);
+
+    return (
       <div className="video-list">
         {sortedVideos.length > 0 ? (
           sortedVideos.map(video => (
@@ -63,10 +79,19 @@ export const Home = () => {
           <NotFound />
         )}
       </div>
+    );
+  };
+
+  return (
+    <main>
+      <GlobalHeader />
+      {renderContent()}
     </main>
   );
 };
 
 export default Home;
+
+
 
 

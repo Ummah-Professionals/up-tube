@@ -9,10 +9,10 @@ const GlobalHeader = () => {
   const handleSearch = (event) => {
     event.preventDefault();
     if (searchInput.trim()) {
-     
+      
       navigate(`/?query=${encodeURIComponent(searchInput.trim())}`);
     } else {
-   
+      
       navigate('/');
     }
   };
@@ -42,6 +42,7 @@ const GlobalHeader = () => {
 };
 
 export default GlobalHeader;
+
 
 
 

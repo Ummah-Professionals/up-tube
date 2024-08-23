@@ -59,7 +59,39 @@ const Watch = () => {
     return <NotFound />;
   }
 
-  const filteredFeed = feed.filter(v => v.id !== video.id);
+  
+  const extractNumericValue = (title) => {
+    const match = title.match(/\d+/);
+    return match ? parseInt(match[0], 10) : null;
+  };
+
+
+  const watchedVideoNumericValue = extractNumericValue(video.title);
+
+  
+  const compareByProximity = (a, b) => {
+    const aValue = extractNumericValue(a.title);
+    const bValue = extractNumericValue(b.title);
+    
+    const aHasMatch = aValue !== null;
+    const bHasMatch = bValue !== null;
+
+    if (aHasMatch && bHasMatch) {
+      const aDifference = Math.abs(aValue - watchedVideoNumericValue);
+      const bDifference = Math.abs(bValue - watchedVideoNumericValue);
+      return aDifference - bDifference;
+    }
+
+    if (aHasMatch) return -1; 
+    if (bHasMatch) return 1; 
+
+    return 0; 
+  };
+
+ 
+  const filteredFeed = feed
+    .filter(v => v.id !== video.id)
+    .sort(compareByProximity);
 
   return (
     <div>
@@ -97,6 +129,10 @@ const Watch = () => {
 };
 
 export default Watch;
+
+
+
+
 
 
 
