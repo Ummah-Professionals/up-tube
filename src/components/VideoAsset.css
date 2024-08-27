@@ -8,8 +8,8 @@
   }
   
   .video-thumbnail {
-    width: 100%; /* Adjust width as needed */
-    max-width: 500px;
+    width: 85%; /* Adjust width as needed */
+    max-width: 300px;
     height: auto; /* Maintain aspect ratio */
     border-radius: 4px; /* Optional: add rounded corners */
     object-fit: cover;

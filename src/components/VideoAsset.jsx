@@ -8,7 +8,7 @@ const VideoAsset = ({ video }) => {
   return (
     <div className="video-asset">
       <a href={`/watch/${video.id}`}>
-      <img src={"https://flymeflag.com/cdn/shop/products/Palestine-Flags-Flag_1e2d848c-16d0-49e9-b469-7b9507ba3904.jpg?v=1628782911&width=550"} alt={video.title} className="video-thumbnail" />
+      <img src={video.thumbnail} alt={video.title} className="video-thumbnail" />
       </a>
       <div className="video-info">
         <div className="video-title">{video.title}</div>

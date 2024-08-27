@@ -8,10 +8,15 @@ import VideoAsset from "../components/VideoAsset";
 import "./Home.css";
 
 export const Home = () => {
-  const [params] = useSearchParams();
-  const page = params.get("page") || 1;
-  const page_size = params.get("page_size") || 52;
+  const [params, setParams] = useSearchParams();
+  let page = parseInt(params.get("page"), 10);
+  const page_size = parseInt(params.get("page_size"), 10) || 32;
   const query = params.get("query") || "";
+
+  if (isNaN(page) || page < 1) {
+    page = 1; // Default to page 1
+    setParams({ page: '1', page_size: page_size.toString(), query });
+  }
 
   const { data, error, isPending } = useQuery({
     queryKey: ["apiData", page, page_size],
@@ -50,6 +55,16 @@ export const Home = () => {
       .sort((a, b) => b.relevance - a.relevance); 
   };
 
+  const handleNextPage = () => {
+    setParams({ page: page + 1, page_size, query });
+  };
+
+  const handlePrevPage = () => {
+    if (page > 1) {
+      setParams({ page: page - 1, page_size, query });
+    }
+  };
+
   const renderContent = () => {
     if (isPending) {
       return <Load />;
@@ -86,12 +101,16 @@ export const Home = () => {
     <main>
       <GlobalHeader />
       {renderContent()}
+      <div className="pagination-buttons">
+        <button onClick={handlePrevPage} disabled={page === 1}>
+          Previous
+        </button>
+        <button onClick={handleNextPage} disabled={data && data.videos.length < page_size}>
+          Next
+        </button>
+      </div>
     </main>
   );
 };
 
 export default Home;
-
-
-
-
