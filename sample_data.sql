@@ -25,7 +25,7 @@ VideoData AS (
         ru.user_id,
         FLOOR(RANDOM() * 600 + 60) AS duration_seconds, -- Duration between 60 and 660 seconds
         NOW() - INTERVAL '1 day' * FLOOR(RANDOM() * 365) AS time_uploaded, -- Random date within the last year
-        'https://loremflickr.com/200/200?random=' || s.i AS thumbnail,
+        'https://loremflickr.com/200/200?lock=' || s.i AS thumbnail,
         CASE
             WHEN s.i % 10 = 1 THEN 'https://www.w3schools.com/html/mov_bbb.mp4'
             WHEN s.i % 10 = 2 THEN 'https://www.w3schools.com/html/movie.mp4'
