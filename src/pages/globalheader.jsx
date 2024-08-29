@@ -8,12 +8,8 @@ const GlobalHeader = () => {
 
   const handleSearch = (event) => {
     event.preventDefault();
-    if (searchInput.trim()) {
-      
-      navigate(`/?query=${encodeURIComponent(searchInput.trim())}`);
-    } else {
-      
-      navigate('/');
+    if (searchQuery.trim()) {
+      navigate(`/?page=1&page_size=32&searchQuery=${encodeURIComponent(searchQuery)}`);
     }
   };
 
