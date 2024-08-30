@@ -131,25 +131,25 @@ a {
 }
 
 .pagination-buttons button:disabled {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
   color: #6c757d;
   cursor: not-allowed;
 }
 
 .pagination-buttons button.prev {
-  background-image: url('/Vector.svg');
+  background-image: url('/Vector.png');
   transform: scaleX(-1);
 }
 
 .pagination-buttons button.next {
-  background-image: url('/Vector.svg');
+  background-image: url('/Vector.png');
 }
 
-/* .pagination-info {
+.page-info {
   text-align: center;
-  margin-top: 1rem;
-  font-size: 1rem;
-} */
+  margin-top: 11px;
+  font-size: 0.85rem;
+} 
 
 
 .videoColumn {

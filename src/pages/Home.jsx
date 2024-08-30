@@ -92,9 +92,9 @@ export const Home = () => {
       {renderContent()}
       {!error && (
         <div className="pagination-buttons">
-          <button onClick={handlePrevPage} disabled={page === 1}></button>
-          {/* <span className="page-info">Page {page} of {totalPages}</span> */}
-          <button onClick={handleNextPage} disabled={data && data.videos.length < page_size}></button>
+          <button onClick={handlePrevPage} disabled={page === 1}><img src="/Vector_Prev.png" alt="Prev"/></button>
+          { <span className="page-info">Page {page}</span> }
+          <button onClick={handleNextPage} disabled={data && data.videos.length < page_size}><img src="/Vector.png" alt="Next"/></button>
         </div>
       )}
     </main>
