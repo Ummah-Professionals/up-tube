@@ -1,32 +1,34 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
+import { useState } from "react";
+import { useSearchParams, Link } from "react-router-dom";
 
 const GlobalHeader = () => {
-  const navigate = useNavigate();
-  const [searchInput, setSearchInput] = useState('');
+  const [params, setParams] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState(params.get("searchQuery") || "");
 
-  const handleSearch = (event) => {
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSearchSubmit = (event) => {
     event.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/?page=1&page_size=32&searchQuery=${encodeURIComponent(searchQuery)}`);
-    }
+    setParams({ searchQuery: searchQuery, page: '1', page_size: params.get("page_size") || '32' });
   };
 
   return (
     <header className="global-header">
-      <div className="logo" onClick={() => navigate('/')}>
-        <img src="/fowealuplogo.png" alt="Logo" />
+      <div className="logo">
+        <Link to="/">
+          <img src="/fowealuplogo.png" alt="Logo" />
+        </Link>
       </div>
-      <form className="search-form" onSubmit={handleSearch}>
-        <input
-          type="text"
-          name="searchInput"
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
+      <form className="search-form" onSubmit={handleSearchSubmit}>
+        <input 
+          type="text" 
+          value={searchQuery} 
+          onChange={handleSearchChange} 
           placeholder="Search"
         />
-        <button className="centered-button" type="submit">
+         <button className="centered-button" type="submit">
           <img src="/ph_magnifying-glass.png" alt="Search" />
         </button>
       </form>
@@ -35,6 +37,13 @@ const GlobalHeader = () => {
 };
 
 export default GlobalHeader;
+
+
+
+
+
+
+
 
 
 

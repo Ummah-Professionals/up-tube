@@ -10,14 +10,9 @@ import "./Home.css";
 
 export const Home = () => {
   const [params, setParams] = useSearchParams();
-  let page = parseInt(params.get("page"), 10);
+  let page = parseInt(params.get("page"), 10) || 1;
   const page_size = parseInt(params.get("page_size"), 10) || 32;
   const searchQuery = params.get("searchQuery") || "";
-
-  if (isNaN(page) || page < 1) {
-    page = 1;
-    setParams({ page: '1', page_size: page_size.toString(), searchQuery });
-  }
 
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["apiData", page, page_size, searchQuery],
@@ -109,3 +104,5 @@ export const Home = () => {
 };
 
 export default Home;
+
+
