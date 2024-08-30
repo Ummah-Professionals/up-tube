@@ -30,9 +30,6 @@ const GlobalHeader = () => {
           <img src="/ph_magnifying-glass.png" alt="Search" />
         </button>
       </form>
-      <div className="profile-links">
-        <img src="/Icon.png" onClick={() => navigate('/about')} alt="Profile" />
-      </div>
     </header>
   );
 };

@@ -30,9 +30,13 @@ a {
 
 .global-header .search-form {
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: 40%;
+  justify-content: center; 
+  width: 100%;
+  max-width: 600px; 
+  position: absolute; 
+  left: 50%; 
+  transform: translateX(-50%); 
 }
 
 .global-header .search-form input[type="text"] {
@@ -42,10 +46,15 @@ a {
   border-radius: 25px;
   font-size: 14px;
   background-color: rgba(255, 255, 255, 1);
-  margin-right: -45px;
+  padding-right: 50px; 
+  outline: none;
 }
 
 .global-header .search-form button {
+  position: absolute;
+  right: 10px; 
+  top: 50%;
+  transform: translateY(-50%);
   background-color: #CCC9C9;
   color: white;
   border: none;
@@ -53,7 +62,8 @@ a {
   cursor: pointer;
   font-size: 14px;
   border-radius: 25px;
-  height: 32.5px;
+  height: 34px;
+  margin-right:-9.5px;
 }
 
 .centered-button img {
@@ -97,30 +107,30 @@ a {
 }
 
 .pagination-buttons button {
-  width: 40px; /* Adjust size as needed */
-  height: 40px; /* Adjust size as needed */
+  width: 40px; 
+  height: 40px; 
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
   border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.1); /* Light background for contrast */
+  background-color: rgba(0, 0, 0, 0.1); 
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   margin: 0 0.5rem;
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  filter: brightness(0) invert(0%); /* Adjust brightness if needed */
+  filter: brightness(0) invert(0%); 
 }
 
 .pagination-buttons button:hover {
-  background-color: rgba(0, 0, 0, 0.2); /* Darker background on hover */
+  background-color: rgba(0, 0, 0, 0.2); 
 }
 
 .pagination-buttons button:disabled {
-  background-color: rgba(0, 0, 0, 0.1); /* Light background for disabled state */
-  color: #6c757d; /* Color for disabled state */
+  background-color: rgba(0, 0, 0, 0.1);
+  color: #6c757d;
   cursor: not-allowed;
 }
 
@@ -144,6 +154,7 @@ a {
   flex: 3;
   display: flex;
   flex-direction: column;
+  margin-left: -50px; 
 }
 
 .recommendationsColumn {
@@ -153,8 +164,10 @@ a {
 
 .videoWrapper {
   position: relative;
-  padding-top: 56.25%;  
-  margin-bottom: -10px;
+  width: 850px; 
+  height: 500px;
+  margin-bottom: 20px; 
+  overflow: hidden;
 }
 
 .videoPlayer {
@@ -163,41 +176,35 @@ a {
   left: 0;
   width: 100%;
   height: 100%;
-  margin: 0 -85px;
-  border-radius: 20px;
+  border-radius: 12px;
   object-fit: cover;
 }
 
 .metadata {
-  padding: 10px 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  margin: 0 -85px;
+  padding: 20px; 
+  background-color: rgba(211, 211, 211, 0.103);
+  border-radius: 15px;
+  margin-top: 20px; 
+  width: 810px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
 .title {
   font-size: 1.5rem;
   font-weight: bold;
   color: #333;
-  margin-bottom: 40px;
-  margin-left: -17px;
-  line-height: 1.2;
+  margin-bottom: 20px;
 }
 
 .description {
   font-size: 0.875rem;
   color: #555;
-  margin-bottom: 40px;
-  line-height: 1.4;
-  margin-left:-10px;
-  
+  margin-bottom: 20px;
 }
 
 .details {
   font-size: 0.875rem;
   color: #606060;
-  margin-left:-10px;
 }
 
 .details > * {
@@ -220,7 +227,7 @@ a {
 
 .recommendationItem {
   background: #fff;
-  border-radius: 8px;
+  border-radius: 15px;
   padding: 10px;
   margin-bottom: 10px;
   cursor: pointer;
@@ -232,7 +239,7 @@ a {
 .recommendationItem img {
   width: 150px; 
   height: 85px; 
-  border-radius: 8px;
+  border-radius: 20px; 
   margin-right: 10px; 
   margin-left: 5px;
 }
@@ -273,10 +280,6 @@ a {
   .container {
     flex-direction: column;
     padding: 10px;
-  }
-
-  .videoColumn {
-    flex: none;
   }
 
   .recommendationsColumn {
