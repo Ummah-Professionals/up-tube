@@ -5,6 +5,7 @@ import GlobalHeader from './globalheader';
 import Load from '../components/Load';
 import NotFound from './NotFound';
 import VideoAsset from "../components/VideoAsset";
+import Error from '../components/Error';
 import "./Home.css";
 
 export const Home = () => {
@@ -43,6 +44,11 @@ export const Home = () => {
     return relevance;
   };
 
+  if (error) {
+    return (
+      <Error/>
+    );
+  }
   
   const sortVideos = (videos, searchQuery) => {
     const searchNum = extractNumber(searchQuery);
@@ -70,13 +76,7 @@ export const Home = () => {
       return <Load />;
     }
 
-    if (error) {
-      return (
-        <p>
-          Got an error: <b>{error.message}</b>
-        </p>
-      );
-    }
+    
 
     if (data.videos.length === 0) {
       return <NotFound />;
