@@ -15,16 +15,45 @@ export const Home = () => {
   const searchQuery = params.get("searchQuery") || "";
 
   if (isNaN(page) || page < 1) {
-    page = 1; // Default to page 1
+    page = 1;
     setParams({ page: '1', page_size: page_size.toString(), searchQuery });
   }
 
-  const { data, error, isPending, refetch } = useQuery({
+  const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["apiData", page, page_size, searchQuery],
     queryFn: () => slowFetchJson(`/api/feed?page_size=${page_size}&page=${page}&searchQuery=${searchQuery}`).then((json) => json),
   });
 
-  const totalPages = data ? Math.ceil(data.videos / page_size) : 0;
+  const totalPages = data ? Math.ceil(data.totalVideos / page_size) : 0;
+
+  const extractNumber = (str) => {
+    const match = str.match(/\d+/);
+    return match ? parseInt(match[0], 10) : null;
+  };
+
+  const calculateRelevance = (video, searchQuery, searchNum) => {
+    const title = video.title.toLowerCase();
+    const isExactMatch = title.includes(searchQuery.toLowerCase());
+    const videoNum = extractNumber(video.title);
+
+    let relevance = isExactMatch ? 1000 : 0;
+    if (searchNum && videoNum !== null) {
+      relevance += 100 / (1 + Math.abs(videoNum - searchNum));
+    }
+
+    return relevance;
+  };
+
+  const sortVideos = (videos, searchQuery) => {
+    const searchNum = extractNumber(searchQuery);
+
+    return videos
+      .map(video => ({
+        ...video,
+        relevance: calculateRelevance(video, searchQuery, searchNum)
+      }))
+      .sort((a, b) => b.relevance - a.relevance);
+  };
 
   const handleNextPage = () => {
     setParams({ page: page + 1, page_size, searchQuery });
@@ -37,7 +66,7 @@ export const Home = () => {
   };
 
   const renderContent = () => {
-    if (isPending) {
+    if (isLoading) {
       return <Load />;
     }
 
@@ -49,72 +78,7 @@ export const Home = () => {
       return <NotFound />;
     }
 
-
-
-    const extractNumber = (str) => {
-      const match = str.match(/\d+/);
-      return match ? parseInt(match[0], 10) : null;
-    };
-
-  const calculateRelevance = (video, searchQuery, searchNum) => {
-    const title = video.title.toLowerCase();
-    const isExactMatch = title.includes(searchQuery.toLowerCase());
-    const videoNum = extractNumber(video.title);
-
-    
-    let relevance = isExactMatch ? 1000 : 0;
-    if (searchNum && videoNum !== null) {
-      relevance += 100 / (1 + Math.abs(videoNum - searchNum));
-    }
-
-    return relevance;
-  };
-
-  if (error) {
-    return (
-      <Error/>
-    );
-  }
-  
-  const sortVideos = (videos, searchQuery) => {
-    const searchNum = extractNumber(searchQuery);
-
-    return videos
-      .map(video => ({
-        ...video,
-        relevance: calculateRelevance(video, searchQuery, searchNum)
-      }))
-      .sort((a, b) => b.relevance - a.relevance); 
-  };
-
-  const handleNextPage = () => {
-    setParams({ page: page + 1, page_size, query });
-  };
-
-  const handlePrevPage = () => {
-    if (page > 1) {
-      setParams({ page: page - 1, page_size, query });
-    }
-  };
-
-  const renderContent = () => {
-    if (isPending) {
-      return <Load />;
-    }
-
-    if (error) {
-      return (
-        <p>
-          Got an error: <b>{error.message}</b>
-        </p>
-      );
-    }
-
-    if (data.videos.length === 0) {
-      return <NotFound />;
-    }
-
-    const sortedVideos = sortVideos(data.videos, query);
+    const sortedVideos = sortVideos(data.videos, searchQuery);
 
     return (
       <div className="video-list">
@@ -135,9 +99,9 @@ export const Home = () => {
       {renderContent()}
       {!error && (
         <div className="pagination-buttons">
-          <button onClick={handlePrevPage} disabled={page === 1}></button>
+          <button onClick={handlePrevPage} disabled={page === 1}>Previous</button>
           <span className="page-info">Page {page} of {totalPages}</span>
-          <button onClick={handleNextPage} disabled={data && data.videos.length < page_size}></button>
+          <button onClick={handleNextPage} disabled={data && data.videos.length < page_size}>Next</button>
         </div>
       )}
     </main>
