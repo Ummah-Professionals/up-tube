@@ -102,8 +102,10 @@ a {
 
 .pagination-buttons {
   display: flex;
-  justify-content: center;
+  justify-content: right;
   margin: 2rem 0;
+  margin-right: 170px;
+  padding-top: 70px;
 }
 
 .pagination-buttons button {
@@ -114,13 +116,13 @@ a {
   justify-content: center;
   border: none;
   border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.1); 
+  background-position: center;
+  background-color: transparent;
+  background-repeat: no-repeat; 
+  background-size:contain;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   margin: 0 0.5rem;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
   filter: brightness(0) invert(0%); 
 }
 
@@ -143,11 +145,11 @@ a {
   background-image: url('/Vector.svg');
 }
 
-.pagination-info {
+/* .pagination-info {
   text-align: center;
   margin-top: 1rem;
   font-size: 1rem;
-}
+} */
 
 
 .videoColumn {

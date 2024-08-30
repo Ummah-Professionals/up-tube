@@ -4,7 +4,8 @@
   grid-gap: 100px;
   margin: 70px auto 0;
   max-width: calc(100% - 40px); 
-  padding: 0 20px; 
+  padding: 0 20px;
+  margin-left: 130px;
   box-sizing: border-box;
   overflow-y: auto;
 }

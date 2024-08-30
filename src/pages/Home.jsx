@@ -24,8 +24,6 @@ export const Home = () => {
     queryFn: () => slowFetchJson(`/api/feed?page_size=${page_size}&page=${page}&searchQuery=${searchQuery}`).then((json) => json),
   });
 
-  const totalPages = data ? Math.ceil(data.totalVideos / page_size) : 0;
-
   const extractNumber = (str) => {
     const match = str.match(/\d+/);
     return match ? parseInt(match[0], 10) : null;
@@ -99,9 +97,9 @@ export const Home = () => {
       {renderContent()}
       {!error && (
         <div className="pagination-buttons">
-          <button onClick={handlePrevPage} disabled={page === 1}>Previous</button>
-          <span className="page-info">Page {page} of {totalPages}</span>
-          <button onClick={handleNextPage} disabled={data && data.videos.length < page_size}>Next</button>
+          <button onClick={handlePrevPage} disabled={page === 1}></button>
+          {/* <span className="page-info">Page {page} of {totalPages}</span> */}
+          <button onClick={handleNextPage} disabled={data && data.videos.length < page_size}></button>
         </div>
       )}
     </main>
