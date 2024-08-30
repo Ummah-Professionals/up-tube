@@ -4,7 +4,7 @@ import { UpdateVideoDto } from './dto/update-video.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Video } from './entities/video.entity';
 import { Repository } from 'typeorm';
-import { Like } from 'typeorm';
+import { ILike, Like } from 'typeorm';
 
 @Injectable()
 export class VideosService {
@@ -13,9 +13,10 @@ export class VideosService {
     private readonly videosRepository: Repository<Video>
   ) {}
 
-  async getFeed(page: number, pageSize: number) {
+  async getFeed(searchQuery: string, page: number, pageSize: number) {
     try {
       const [videos, total] = await this.videosRepository.findAndCount({
+        where: {title: ILike(`%${searchQuery}%`)},
         relations: ['user'],
         take: pageSize,
         skip: (page - 1) * pageSize,
@@ -75,42 +76,6 @@ export class VideosService {
             "video_id": id,
         }
     } 
-}
-
-async searchVideos(searchQuery: string, page: number, pageSize: number) {
-  try {
-    const [videos, total] = await this.videosRepository.findAndCount({
-      where: { title: Like(`%${searchQuery}%`), description: Like(`%${searchQuery}%`) },
-      relations: ['user'],
-      take: pageSize,
-      skip: (page - 1) * pageSize,
-      order: { time_uploaded: 'DESC' },
-    });
-
-    const totalPages = Math.ceil(total / pageSize);
-
-    return {
-      videos: videos.map(video => ({
-        id: video.id,
-        title: video.title,
-        user_id: video.user.id,
-        user_username: video.user.username,
-        user_profile_pic_path: video.user.profile_pic_path,
-        duration_seconds: video.duration_seconds,
-        time_uploaded: video.time_uploaded,
-        thumbnail: video.thumbnail,
-        views: video.num_views,
-        description: video.description,
-      })),
-      total_pages: totalPages,
-      current_page: page,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      status_message: "SEARCH_FAILED",
-    };
-  }
 }
 
   async create(createVideoDto: CreateVideoDto) {

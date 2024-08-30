@@ -9,25 +9,18 @@ export class APIController {
 
   @Get('feed')
   async getFeed(
+    @Query('searchQuery') searchQuery: string = "",
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
     @Query('page_size', new DefaultValuePipe(52), ParseIntPipe) pageSize: number
   ) {
-    return this.videosService.getFeed(page, pageSize);
+    return this.videosService.getFeed(searchQuery, page, pageSize);
   }
 
   @Get('watchVideo/:id')
   async getWatchVideo(@Param('id') id: string) {
     return this.videosService.getWatchVideo(id);
   }
-
-  @Get('search')
-  async search(@Query('searchQuery') searchQuery: string, @Query('page') page: number = 1, @Query('page_size') pageSize: number = 25) {  
-    const result = await this.videosService.searchVideos(searchQuery, page, pageSize);
-    return result;
-  }
-
 }
-
 
 @Controller('videos')
 export class VideosController {

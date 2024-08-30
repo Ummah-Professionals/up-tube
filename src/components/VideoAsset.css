@@ -1,18 +1,17 @@
-.video-asset {
-    width: 70%; /* Takes full width of the grid cell */
-    max-width: 70%; /* Ensures it doesn't exceed the grid cell */
-    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
-    border-radius: 4px;
-    margin-left: 50px;
+  .video-asset {
+    width: 281.81px;
+    height: 307px;
+    gap: 0px;
+    opacity: 0px;
     overflow: hidden;
   }
   
   .video-thumbnail {
-    width: 85%; /* Adjust width as needed */
-    max-width: 300px;
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 4px; /* Optional: add rounded corners */
-    object-fit: cover;
+    width: 282px;
+    height: 192px;
+    gap: 0px;
+    border-radius: 5px;
+    opacity: 0px;
   }
   
   .video-info {
@@ -21,21 +20,20 @@
   }
   
   .video-title {
-    font-family: 'Kollektif', sans-serif;
-    max-width: 253px;
     font-size: 20px;
     font-weight: bold;
+    width: 259px;
+    top: 355px;
+    gap: 0px;
+    opacity: 0px;
     margin: 5px 0;
     margin-bottom: 4px;
-    margin-left: 20px;
   }
   
   .video-meta {
-    font-family: 'Kollektif', sans-serif;
     font-size: 12px;
-    color: #555;
+    color: #000000;
     margin-top: 5px;
-    margin-left: 20px;
   }
   
   .video-meta span {

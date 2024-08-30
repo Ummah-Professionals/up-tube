@@ -90,6 +90,56 @@ a {
   gap: 20px;
 }
 
+.pagination-buttons {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.pagination-buttons button {
+  width: 40px; /* Adjust size as needed */
+  height: 40px; /* Adjust size as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.1); /* Light background for contrast */
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin: 0 0.5rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  filter: brightness(0) invert(0%); /* Adjust brightness if needed */
+}
+
+.pagination-buttons button:hover {
+  background-color: rgba(0, 0, 0, 0.2); /* Darker background on hover */
+}
+
+.pagination-buttons button:disabled {
+  background-color: rgba(0, 0, 0, 0.1); /* Light background for disabled state */
+  color: #6c757d; /* Color for disabled state */
+  cursor: not-allowed;
+}
+
+.pagination-buttons button.prev {
+  background-image: url('/Vector.svg');
+  transform: scaleX(-1);
+}
+
+.pagination-buttons button.next {
+  background-image: url('/Vector.svg');
+}
+
+.pagination-info {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+
 .videoColumn {
   flex: 3;
   display: flex;
